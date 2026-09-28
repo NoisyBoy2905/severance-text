@@ -1,6 +1,5 @@
 from classes import Paladin
 from enemy import Enemy
-import random 
 
 hero = Paladin("Micha")
 boar = Enemy("Mutated Boar", 40, 8, 2, 10)
@@ -13,8 +12,8 @@ while hero.is_alive() and boar.is_alive():
     choice = input("[A]ttack or [D]efend? ").strip().upper()
 
     if choice == "A":
-        boar.take_damage(hero.attack)
-        print(f"{hero.name} attacks {boar.name} for {hero.attack} damage!")
+        dmg = boar.take_damage(hero.attack)
+        print(f"{hero.name} attacks {boar.name} for {dmg} damage!")
     elif choice == "D":
         hero.defend()
     else:
@@ -22,7 +21,8 @@ while hero.is_alive() and boar.is_alive():
         continue
 
     if boar.is_alive():
-        hero.take_damage(boar.attack)
+        dmg = hero.take_damage(boar.attack)
+        print(f"{boar.name} attacks {hero.name} for {dmg} damage!")
 
 if hero.is_alive():
     print(f"You Win! XP gained {boar.xp_reward}")

@@ -7,4 +7,4 @@ class Paladin(Player):
 
     def defend(self):
         self.defending = True 
-        print(f"{self.name} raises their shield, increasing defence to {self.defence}!")
+        print(f"{self.name} raises their shield!")
