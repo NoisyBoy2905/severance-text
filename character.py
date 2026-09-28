@@ -15,7 +15,7 @@ class Character:
         if self.defending:
             raw_damage = raw_damage / 1.5
         damage = round(raw_damage * (100 / (100 + self.defence)))
-        self.health = round(max(0, self.health - damage))   
+        self.health = max(0, self.health - damage) 
         self.defending = False
         return damage
 
@@ -27,3 +27,10 @@ class Character:
 
     def show_stats(self):
         print(f"{self.name} stats are: {self.health}/{self.max_health} health, {self.attack} attack and {self.defence} defence.")
+
+    def show_bar(self):
+        bar_length = 20
+        filled = round((self.health / self.max_health) * bar_length)
+        empty = bar_length - filled
+        bar = "#" * filled + "-" * empty
+        print(f"{self.name:<14} | [{bar}] | {self.health:>3}/{self.max_health}")
