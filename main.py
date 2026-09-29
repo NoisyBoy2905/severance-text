@@ -7,12 +7,15 @@ def plural(number, word):
         return f"{number} {word}"
     else: 
         return f"{number} {word}s"
+
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
     
 def intro():
 
     name = ""
 
-    os.system('cls' if os.name == 'nt' else 'clear')
+    clear_screen()
 
     print(f"{"=" * 6} Welcome To Severance (WIP)! {"=" * 6}")
     print()
@@ -57,11 +60,11 @@ def intro():
     
 def battle(hero, enemy):
 
-    os.system('cls' if os.name == 'nt' else 'clear')
-
     turn = 1 
 
     while hero.is_alive() and enemy.is_alive():
+
+        clear_screen()
 
         hero.defending = False
 
@@ -105,10 +108,12 @@ def battle(hero, enemy):
 
             if found is None:
                 print("Please Enter a Valid Keybind!")
+                input("Press Enter to Continue...")
                 continue
 
             elif not found.is_ready():
                 print(f"{found.name} has {plural(found.current_cooldown, "turn")} till ready!")
+                input("Press Enter to Continue...")
                 continue
             else:
                 found.use(hero, enemy)
@@ -118,6 +123,8 @@ def battle(hero, enemy):
 
         for ability in hero.abilities:
             ability.tick()
+
+        input("Press Enter to Continue...")
 
         turn += 1
 

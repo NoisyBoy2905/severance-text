@@ -35,12 +35,15 @@ class Player(Character):
         print(f"{self.name} is now level {self.level}!")
         self.show_stats()
 
+    def display_name(self):
+        return f"{self.name} | Level {self.level}"
+
     def show_xp_bar(self):
         bar_length = 20
         filled = round((self.xp / self.xp_needed()) * bar_length)
         empty = bar_length - filled
         bar = ("#" * filled) + ("-" * empty)
-        print(f"{"XP":<14} | [{bar}] | {self.xp:>3}/{self.xp_needed()}")
+        print(f"{"XP":<20} | [{bar}] | {self.xp:>3}/{self.xp_needed()}")
 
         
 if __name__ == "__main__":

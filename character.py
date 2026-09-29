@@ -33,4 +33,9 @@ class Character:
         filled = round((self.health / self.max_health) * bar_length)
         empty = bar_length - filled
         bar = "#" * filled + "-" * empty
-        print(f"{self.name:<14} | [{bar}] | {self.health:>3}/{self.max_health}")
+        print(f"{self.display_name():<20} | [{bar}] | {self.health:>3}/{self.max_health}")
+
+    def display_name(self):
+        return self.name
+
+    
