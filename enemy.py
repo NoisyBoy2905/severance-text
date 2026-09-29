@@ -8,7 +8,6 @@ class Enemy(Character):
         super().__init__(name, max_health, attack, defence)
         self.xp_reward = xp_reward
         self.charging = False
-        self.defending = False
 
     def take_turn(self, hero):
 
@@ -20,7 +19,7 @@ class Enemy(Character):
         roll = random.randint(1, 100)
 
         if roll <= 50:
-            dmg = round(hero.take_damage(self.attack))
+            dmg = hero.take_damage(self.attack)
             print(f"{self.name} attacks {hero.name} for {dmg} damage!")
         elif roll <= 70:
             self.defending = True

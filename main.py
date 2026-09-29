@@ -119,7 +119,7 @@ def battle(hero, enemy):
 
     if hero.is_alive():
         print(f"You Win! XP gained {enemy.xp_reward}")
-        hero.xp += enemy.xp_reward
+        hero.gain_xp(enemy.xp_reward)
         return True
 
     else:
@@ -129,6 +129,6 @@ def battle(hero, enemy):
 if __name__ == "__main__":
     
     hero = intro()
-    enemy = Enemy("Mutated Boar", 40, 8, 2, 10)
+    enemy = Enemy("Mutated Boar", 40, 8, 2, 30)
 
     battle(hero, enemy)

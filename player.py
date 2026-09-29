@@ -10,9 +10,28 @@ class Player(Character):
         self.level = 1
         self.xp = 0
 
+    def xp_needed(self):
+        return 24 * self.level
+
+    def gain_xp(self, amount):
+        self.xp += amount
+        print(f"{self.name} gains {amount} XP!")
+        while self.xp >= self.xp_needed():
+            self.xp -= self.xp_needed()
+            self.level_up()
+
+    def level_up(self):
+        self.level += 1 
+        self.max_health += self.health_growth
+        self.attack += self.attack_growth
+        self.defence += self.defence_growth
+        self.health = self.max_health
+        print("LEVEL UP!")
+        print(f"{self.name} is now level {self.level}!")
+        
 if __name__ == "__main__":
 
-    hero = Player("Micha", "Religion", "Paladin", 120, 10, 5)
+    hero = Player("Lincoln", "Religion", "Paladin", 120, 10, 5)
     hero.take_damage(20)
     hero.show_stats()
     print(hero.is_alive())
