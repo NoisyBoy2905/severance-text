@@ -9,7 +9,10 @@ class Player(Character):
         self.subclass = subclass
         self.level = 1
         self.xp = 0
-
+        self.health_growth = 12
+        self.attack_growth = 1
+        self.defence_growth = 3
+    
     def xp_needed(self):
         return 24 * self.level
 
@@ -26,6 +29,7 @@ class Player(Character):
         self.attack += self.attack_growth
         self.defence += self.defence_growth
         self.health = self.max_health
+        print()
         print("LEVEL UP!")
         print(f"{self.name} is now level {self.level}!")
         
