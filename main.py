@@ -16,7 +16,11 @@ def intro():
 
     print(f"{"=" * 6} Welcome To Severance (WIP)! {"=" * 6}")
     print()
-    print("Bla Bla Bla Bla Bla")
+    print("The land is splitting.")
+    print("Science, Magic and Religion each claim to know why. None of them agree.")
+    print("Dungeons tear open without warning, spilling twisted creatures across the world.")
+    print("But they all agree on one thing: someone has to go in.")
+    print()
 
     while name == "":
         name = input("Enter your name: ").strip()
@@ -132,6 +136,6 @@ def battle(hero, enemy):
 if __name__ == "__main__":
     
     hero = intro()
-    enemy = Enemy("Mutated Boar", 40, 8, 2, 30)
+    enemy = Enemy("Mutated Boar", 40, 8, 2, 12)
 
     battle(hero, enemy)
