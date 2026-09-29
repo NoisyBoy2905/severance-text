@@ -7,7 +7,50 @@ def plural(number, word):
         return f"{number} {word}"
     else: 
         return f"{number} {word}s"
+    
+def intro():
 
+    name = ""
+
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+    print(f"{"=" * 6} Welcome To Severance (WIP)! {"=" * 6}")
+    print()
+    print("Bla Bla Bla Bla Bla")
+
+    while name == "":
+        name = input("Enter your name: ").strip()
+
+    print(f"Welcome, {name}!")  
+    print()
+    print("Choose your class:")
+
+    menu = [
+        "[P] Paladin | 120 Health | 10 Attack | 6 Defence",
+        "[?] WIP",
+        "[?] WIP",
+    ]
+
+
+    for option in menu:
+        print("  " + option)
+
+    print()
+    choice = input(">  ").strip().upper()
+    print()
+
+    while choice not in ["P"]:
+        print("Please Enter a Valid Keybind!")
+        choice = input(">  ").strip().upper()
+        print()
+
+    if choice == "P":
+        hero = Paladin(name)
+        print("You have chosen the Paladin class!")
+        input("Press Enter to Continue...")
+        return hero
+
+    
 def battle(hero, enemy):
 
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -15,6 +58,8 @@ def battle(hero, enemy):
     turn = 1 
 
     while hero.is_alive() and enemy.is_alive():
+
+        hero.defending = False
 
         print()
         print(f"========== Turn {turn} ==========")
@@ -65,8 +110,7 @@ def battle(hero, enemy):
                 found.use(hero, enemy)
 
         if enemy.is_alive():
-            dmg = hero.take_damage(enemy.attack)
-            print(f"{enemy.name} attacks {hero.name} for {dmg} damage!")
+            enemy.take_turn(hero)
 
         for ability in hero.abilities:
             ability.tick()
@@ -84,7 +128,7 @@ def battle(hero, enemy):
 
 if __name__ == "__main__":
     
-    hero = Paladin("Micha")
+    hero = intro()
     enemy = Enemy("Mutated Boar", 40, 8, 2, 10)
 
     battle(hero, enemy)
