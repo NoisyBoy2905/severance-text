@@ -118,7 +118,7 @@ def battle(hero, enemy):
         turn += 1
 
     if hero.is_alive():
-        print(f"You Win! XP gained {enemy.xp_reward}")
+        print(f"You Win!")
         hero.gain_xp(enemy.xp_reward)
         return True
 
