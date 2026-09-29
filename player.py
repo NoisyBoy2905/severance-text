@@ -11,8 +11,8 @@ class Player(Character):
         self.xp = 0
         self.health_growth = 12
         self.attack_growth = 1
-        self.defence_growth = 3 
-
+        self.defence_growth = 3
+    
     def xp_needed(self):
         return 24 * self.level
 
@@ -22,7 +22,6 @@ class Player(Character):
         while self.xp >= self.xp_needed():
             self.xp -= self.xp_needed()
             self.level_up()
-        self.show_xp_bar()
 
     def level_up(self):
         self.level += 1 
@@ -33,18 +32,6 @@ class Player(Character):
         print()
         print("LEVEL UP!")
         print(f"{self.name} is now level {self.level}!")
-        self.show_stats()
-
-    def display_name(self):
-        return f"{self.name} | Level {self.level}"
-
-    def show_xp_bar(self):
-        bar_length = 20
-        filled = round((self.xp / self.xp_needed()) * bar_length)
-        empty = bar_length - filled
-        bar = ("#" * filled) + ("-" * empty)
-        print(f"{"XP":<20} | [{bar}] | {self.xp:>3}/{self.xp_needed()}")
-
         
 if __name__ == "__main__":
 

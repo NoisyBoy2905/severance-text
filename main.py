@@ -7,23 +7,16 @@ def plural(number, word):
         return f"{number} {word}"
     else: 
         return f"{number} {word}s"
-
-def clear_screen():
-    os.system('cls' if os.name == 'nt' else 'clear')
     
 def intro():
 
     name = ""
 
-    clear_screen()
+    os.system('cls' if os.name == 'nt' else 'clear')
 
     print(f"{"=" * 6} Welcome To Severance (WIP)! {"=" * 6}")
     print()
-    print("The land is splitting.")
-    print("Science, Magic and Religion each claim to know why. None of them agree.")
-    print("Dungeons tear open without warning, spilling twisted creatures across the world.")
-    print("But they all agree on one thing: someone has to go in.")
-    print()
+    print("Bla Bla Bla Bla Bla")
 
     while name == "":
         name = input("Enter your name: ").strip()
@@ -60,11 +53,11 @@ def intro():
     
 def battle(hero, enemy):
 
+    os.system('cls' if os.name == 'nt' else 'clear')
+
     turn = 1 
 
     while hero.is_alive() and enemy.is_alive():
-
-        clear_screen()
 
         hero.defending = False
 
@@ -108,12 +101,10 @@ def battle(hero, enemy):
 
             if found is None:
                 print("Please Enter a Valid Keybind!")
-                input("Press Enter to Continue...")
                 continue
 
             elif not found.is_ready():
                 print(f"{found.name} has {plural(found.current_cooldown, "turn")} till ready!")
-                input("Press Enter to Continue...")
                 continue
             else:
                 found.use(hero, enemy)
@@ -123,8 +114,6 @@ def battle(hero, enemy):
 
         for ability in hero.abilities:
             ability.tick()
-
-        input("Press Enter to Continue...")
 
         turn += 1
 
@@ -143,6 +132,6 @@ def battle(hero, enemy):
 if __name__ == "__main__":
     
     hero = intro()
-    enemy = Enemy("Mutated Boar", 40, 8, 2, 12)
+    enemy = Enemy("Mutated Boar", 40, 8, 2, 30)
 
     battle(hero, enemy)
