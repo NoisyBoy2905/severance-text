@@ -1,7 +1,7 @@
 class Ability:
 
     # Ability stats
-    def __init__(self, name, key, power, cooldown, target="one", message=None):
+    def __init__(self, name, key, power, cooldown, target="one", message=None, cost=0):
         self.name = name
         self.key = key
         self.power = power
@@ -9,12 +9,17 @@ class Ability:
         self.current_cooldown = 0
         self.target = target
         self.message = message
+        self.cost = cost
 
     # Cooldowns and use
     def is_ready(self):
         return self.current_cooldown == 0 
 
+    def can_afford(self, user):
+        return user.mana >= self.cost
+
     def use(self, user, targets):
+        user.mana -= self.cost
         if self.message is not None:
             print(f"{user.name} {self.message}")
 
@@ -44,7 +49,7 @@ class BlockAbility(Ability):
 
 class LifestealAbility(Ability):
 
-    def __init__(self, name, key, power, cooldown, target="one", message=None, drain=0.5):
+    def __init__(self, name, key, power, cooldown, target="one", message=None, cost=0, drain=0.5):
         super().__init__(name, key, power, cooldown, target, message)
         self.drain = drain
 

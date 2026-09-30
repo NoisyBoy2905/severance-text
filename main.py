@@ -166,6 +166,10 @@ def battle(hero, enemies):
         for ability in hero.abilities:
             if ability.is_ready():
                 menu.append(f"[{ability.key}] {ability.name}")
+            elif not found.can_afford(hero):
+                print(f"Not enough mana! ({found.cost} MP needed)")
+                input("Press Enter to Continue...")
+                continue
             else:
                 menu.append(f"[{ability.key}] {ability.name} | {plural(ability.current_cooldown, "turn")}")
 
@@ -219,6 +223,8 @@ def battle(hero, enemies):
         # End of turn
         for ability in hero.abilities:
             ability.tick()
+
+        hero.mana = min(hero.max_mana, hero.mana + hero.mana_regen)
 
         input("Press Enter to Continue...")
 

@@ -13,6 +13,9 @@ class Player(Character):
         self.health_growth = 12
         self.attack_growth = 1
         self.defence_growth = 3 
+        self.max_mana = 0
+        self.mana = 0
+        self.mana_regen = 0
         self.max_level = 20
         self.unlocks = {}
 
