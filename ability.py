@@ -1,5 +1,6 @@
 class Ability:
 
+    # Ability stats
     def __init__(self, name, key, power, cooldown):
         self.name = name
         self.key = key
@@ -7,6 +8,7 @@ class Ability:
         self.cooldown = cooldown
         self.current_cooldown = 0
 
+    # Cooldowns and use
     def is_ready(self):
         return self.current_cooldown == 0 
 

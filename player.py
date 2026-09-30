@@ -2,6 +2,7 @@ from character import Character
 
 class Player(Character):
 
+    # Player stats
     def __init__(self, name, pillar, subclass, max_health, attack, defence):
 
         super().__init__(name, max_health, attack, defence)
@@ -13,6 +14,7 @@ class Player(Character):
         self.attack_growth = 1
         self.defence_growth = 3 
 
+    # XP and levelling
     def xp_needed(self):
         return 50 * self.level
 
@@ -36,6 +38,7 @@ class Player(Character):
         print(f"{self.name} is now level {self.level}!")
         self.show_stats()
 
+    # Display
     def display_name(self):
         return f"{self.name} | Level {self.level}"
 
@@ -48,6 +51,7 @@ class Player(Character):
         print(f"{"XP":<20} | [{bar}] | {self.xp:>3}/{self.xp_needed()}")
 
         
+# Quick test
 if __name__ == "__main__":
 
     hero = Player("Lincoln", "Religion", "Paladin", 120, 10, 5)

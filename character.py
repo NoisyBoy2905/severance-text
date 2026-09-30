@@ -2,6 +2,7 @@ import random
 
 class Character:
 
+    # Base stats
     def __init__(self, name, max_health, attack, defence):
         self.name = name
         self.max_health = max_health
@@ -11,6 +12,7 @@ class Character:
         self.defending = False
         self.defending_power = 1.5
     
+    # Taking damage
     def take_damage(self, raw_damage):
         raw_damage = random.randint(int(raw_damage * 0.8), int(raw_damage * 1.2))
         if self.defending:
@@ -20,6 +22,7 @@ class Character:
         self.defending = False
         return damage
 
+    # Status and display
     def is_alive(self):
         return self.health > 0
 

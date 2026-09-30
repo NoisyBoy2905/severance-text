@@ -3,6 +3,7 @@ from ability import Ability
 
 class Paladin(Player):
 
+    # Paladin stats and abilities
     def __init__(self, name):
         super().__init__(name, "Religion", "Paladin", 120, 10, 6)
         self.health_growth = 12
@@ -14,6 +15,7 @@ class Paladin(Player):
             Ability("Holy Strike", "H", 2, 4),
         ]
 
+    # Paladin defend
     def defend(self):
         self.defending = True 
         print(f"{self.name} raises their shield!")

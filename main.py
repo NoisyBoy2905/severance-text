@@ -1,8 +1,10 @@
 from classes import Paladin
-from enemy import Enemy
+from enemy import Enemy, Boss
+from move import Move
 import os
 import random
 
+# Helpers
 def plural(number, word):
     if number == 1:
         return f"{number} {word}"
@@ -18,6 +20,7 @@ def any_alive(enemies):
             return True
     return False
 
+# Target picking
 def pick_target(enemies):
     alive_enemies = []
 
@@ -44,6 +47,7 @@ def pick_target(enemies):
         print("Invalid Target! Please choose a valid target.")
 
     
+# Title and class select
 def intro():
 
     name = ""
@@ -90,12 +94,14 @@ def intro():
         input("Press Enter to Continue...")
         return hero
 
+# Dungeon
 def dungeon(hero, name, enemies):
 
     room = 1 
 
     for room_enemies in enemies:
 
+        # Rest between rooms
         if room > 1:
             percent = random.randint(25, 35)
             heal = round(hero.max_health * (percent / 100))
@@ -103,6 +109,7 @@ def dungeon(hero, name, enemies):
             print(f"You catch your breath and heal for {heal} health!")
             input("Press Enter to Continue...")
 
+        # Room intro
         clear_screen()
         print(f"{"=" * 10} {name} | Room {room} of {len(enemies)} {"=" * 10}")
         print()
@@ -119,6 +126,7 @@ def dungeon(hero, name, enemies):
             print(f"{' and '.join(names)} block your path!")
         input("Press Enter to fight...")
 
+        # Fight the room
         won = battle(hero, room_enemies)
         if not won:
             print()
@@ -129,12 +137,14 @@ def dungeon(hero, name, enemies):
     print()
     print("DUNGEON CLEARED!")
     
+# Battle
 def battle(hero, enemies):
 
     turn = 1 
 
     while hero.is_alive() and any_alive(enemies):
 
+        # Turn display
         clear_screen()
 
         hero.defending = False
@@ -167,6 +177,7 @@ def battle(hero, enemies):
         choice = input(">  ").strip().upper()
         print()
 
+        # Hero turn
         if choice == "A":
             target = pick_target(enemies)
             dmg = target.take_damage(hero.attack)
@@ -191,10 +202,12 @@ def battle(hero, enemies):
             else:
                 found.use(hero, pick_target(enemies))
 
+        # Enemy turn
         for enemy in enemies:
             if enemy.is_alive():
                 enemy.take_turn(hero)
 
+        # End of turn
         for ability in hero.abilities:
             ability.tick()
 
@@ -202,6 +215,7 @@ def battle(hero, enemies):
 
         turn += 1
 
+    # Battle result
     if hero.is_alive():
         print()
         print(f"You Win!")
@@ -219,12 +233,13 @@ def battle(hero, enemies):
         print("You Died!")
         return False
 
+# Start game
 if __name__ == "__main__":
 
     rainforest_enemies = [
         [Enemy("Mutated Frog", 40, 4, 10, 8)],
         [Enemy("Mutated Boar", 35, 12, 2, 12), Enemy("Mutated Frog", 40, 4, 10, 8)],
-        [Enemy("Mutated Cheetah", 100, 11, 5, 30)],
+        [Boss("Mutated Cheetah", 90, 11, 5, 30, [Move("Pounce", 15, 1, 2, "crouches low, ready to pounce!")], enrage_bonus=2)],
     ]
     
     hero = intro()
