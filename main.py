@@ -10,6 +10,38 @@ def plural(number, word):
 
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
+
+def any_alive(enemies):
+    for enemy in enemies:
+        if enemy.is_alive():
+            return True
+    return False
+
+def pick_target(enemies):
+    alive_enemies = []
+
+    for enemy in enemies:
+        if enemy.is_alive():
+            alive_enemies.append(enemy)
+
+    if len(alive_enemies) == 1:
+        return alive_enemies[0]
+
+    print("Choose a target:")
+    for number, enemy in enumerate(alive_enemies, start=1):
+        print(f"[{number}] {enemy.name}")
+    
+    while True:
+        try:
+            pick = int(input(">  ").strip())
+        except ValueError:
+            print("Please enter a valid number!")
+            continue
+
+        if 1 <= pick <= len(alive_enemies):
+            return alive_enemies[pick - 1]
+        print("Invalid Target! Please choose a valid target.")
+
     
 def intro():
 
@@ -60,17 +92,25 @@ def intro():
 def dungeon(hero, name, enemies):
 
     room = 1 
-    for enemy in enemies:
+
+    for room_enemies in enemies:
         clear_screen()
-        print(f"{"=" * 10} {name} | Room {room} of {len(enemies)}{"=" * 10}")
+        print(f"{"=" * 10} {name} | Room {room} of {len(enemies)} {"=" * 10}")
         print()
         hero.show_bar()
         hero.show_xp_bar()
         print()
-        print(f"A {enemy.name} blocks your path!")
+        names = []
+        for enemy in room_enemies:
+            names.append(enemy.name)
+
+        if len(names) == 1:
+            print(f"A {names[0]} blocks your path!")
+        else:
+            print(f"{' and '.join(names)} block your path!")
         input("Press Enter to fight...")
 
-        won = battle(hero, enemy)
+        won = battle(hero, room_enemies)
         if not won:
             print()
             print(f"You were defeated in {name}")
@@ -80,22 +120,23 @@ def dungeon(hero, name, enemies):
     print()
     print("DUNGEON CLEARED!")
     
-def battle(hero, enemy):
+def battle(hero, enemies):
 
     turn = 1 
 
-    while hero.is_alive() and enemy.is_alive():
+    while hero.is_alive() and any_alive(enemies):
 
         clear_screen()
 
         hero.defending = False
 
         print()
-        print(f"{"=" * 10} Turn {turn} {"=" * 10}")
+        print(f"{"=" * 15} Turn {turn} {"=" * 15}")
         print()
 
         hero.show_bar()
-        enemy.show_bar()
+        for enemy in enemies:
+            enemy.show_bar()
 
         print()
 
@@ -118,8 +159,9 @@ def battle(hero, enemy):
         print()
 
         if choice == "A":
-            dmg = enemy.take_damage(hero.attack)
-            print(f"{hero.name} attacks {enemy.name} for {dmg} damage!")
+            target = pick_target(enemies)
+            dmg = target.take_damage(hero.attack)
+            print(f"{hero.name} attacks {target.name} for {dmg} damage!")
         elif choice == "D":
             hero.defend()
         else:
@@ -138,10 +180,11 @@ def battle(hero, enemy):
                 input("Press Enter to Continue...")
                 continue
             else:
-                found.use(hero, enemy)
+                found.use(hero, pick_target(enemies))
 
-        if enemy.is_alive():
-            enemy.take_turn(hero)
+        for enemy in enemies:
+            if enemy.is_alive():
+                enemy.take_turn(hero)
 
         for ability in hero.abilities:
             ability.tick()
@@ -154,7 +197,10 @@ def battle(hero, enemy):
         print()
         print(f"You Win!")
         print()
-        hero.gain_xp(enemy.xp_reward)
+        total_xp = 0
+        for enemy in enemies:
+            total_xp += enemy.xp_reward
+        hero.gain_xp(total_xp)
         print()
         input("Press Enter to Continue...")
         return True
@@ -167,9 +213,9 @@ def battle(hero, enemy):
 if __name__ == "__main__":
 
     rainforest_enemies = [
-        Enemy("Mutated Frog", 35, 3, 4, 8),
-        Enemy("Mutated Boar", 40, 8, 2, 12),
-        Enemy("Mutated Cheetah", 85, 10, 5, 25),
+        [Enemy("Mutated Frog", 35, 3, 4, 8)],
+        [Enemy("Mutated Boar", 40, 8, 2, 12), Enemy("Mutated Frog", 35, 3, 4, 8)],
+        [Enemy("Mutated Cheetah", 85, 10, 5, 25)],
     ]
     
     hero = intro()
