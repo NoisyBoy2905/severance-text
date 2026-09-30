@@ -7,16 +7,23 @@ def plural(number, word):
         return f"{number} {word}"
     else: 
         return f"{number} {word}s"
+
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
     
 def intro():
 
     name = ""
 
-    os.system('cls' if os.name == 'nt' else 'clear')
+    clear_screen()
 
-    print(f"{"=" * 6} Welcome To Severance (WIP)! {"=" * 6}")
+    print(f"{"=" * 10} Welcome To Severance (WIP)! {"=" * 10}")
     print()
-    print("Bla Bla Bla Bla Bla")
+    print("The land is splitting.")
+    print("Science, Magic and Religion each claim to know why. None of them agree.")
+    print("Dungeons tear open without warning, spilling twisted creatures across the world.")
+    print("But they all agree on one thing: someone has to go in.")
+    print()
 
     while name == "":
         name = input("Enter your name: ").strip()
@@ -50,19 +57,41 @@ def intro():
         input("Press Enter to Continue...")
         return hero
 
-    
-def battle(hero, enemies):
+def dungeon(hero, name, enemies):
 
-    os.system('cls' if os.name == 'nt' else 'clear')
+    room = 1 
+    for enemy in enemies:
+        clear_screen()
+        print(f"{"=" * 10} {name} | Room {room} of {len(enemies)}{"=" * 10}")
+        print()
+        hero.show_bar()
+        hero.show_xp_bar()
+        print()
+        print(f"A {enemy.name} blocks your path!")
+        input("Press Enter to fight...")
+
+        won = battle(hero, enemy)
+        if not won:
+            print()
+            print(f"You were defeated in {name}")
+            return
+        room += 1
+
+    print()
+    print("DUNGEON CLEARED!")
+    
+def battle(hero, enemy):
 
     turn = 1 
 
     while hero.is_alive() and enemy.is_alive():
 
+        clear_screen()
+
         hero.defending = False
 
         print()
-        print(f"========== Turn {turn} ==========")
+        print(f"{"=" * 10} Turn {turn} {"=" * 10}")
         print()
 
         hero.show_bar()
@@ -101,10 +130,12 @@ def battle(hero, enemies):
 
             if found is None:
                 print("Please Enter a Valid Keybind!")
+                input("Press Enter to Continue...")
                 continue
 
             elif not found.is_ready():
                 print(f"{found.name} has {plural(found.current_cooldown, "turn")} till ready!")
+                input("Press Enter to Continue...")
                 continue
             else:
                 found.use(hero, enemy)
@@ -115,6 +146,8 @@ def battle(hero, enemies):
         for ability in hero.abilities:
             ability.tick()
 
+        input("Press Enter to Continue...")
+
         turn += 1
 
     if hero.is_alive():
@@ -122,6 +155,8 @@ def battle(hero, enemies):
         print(f"You Win!")
         print()
         hero.gain_xp(enemy.xp_reward)
+        print()
+        input("Press Enter to Continue...")
         return True
 
     else:
@@ -130,8 +165,13 @@ def battle(hero, enemies):
         return False
 
 if __name__ == "__main__":
+
+    rainforest_enemies = [
+        Enemy("Mutated Frog", 35, 3, 4, 8),
+        Enemy("Mutated Boar", 40, 8, 2, 12),
+        Enemy("Mutated Cheetah", 85, 10, 5, 25),
+    ]
     
     hero = intro()
-    enemy = Enemy("Mutated Boar", 40, 8, 2, 30)
 
-    battle(hero, enemy)
+    dungeon(hero, "Rainforest River", rainforest_enemies)
