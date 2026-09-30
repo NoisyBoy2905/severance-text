@@ -50,7 +50,7 @@ class BlockAbility(Ability):
 class LifestealAbility(Ability):
 
     def __init__(self, name, key, power, cooldown, target="one", message=None, cost=0, drain=0.5):
-        super().__init__(name, key, power, cooldown, target, message)
+        super().__init__(name, key, power, cooldown, target, message, cost)
         self.drain = drain
 
     def apply(self, user, target):

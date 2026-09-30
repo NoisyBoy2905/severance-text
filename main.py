@@ -166,10 +166,6 @@ def battle(hero, enemies):
         for ability in hero.abilities:
             if ability.is_ready():
                 menu.append(f"[{ability.key}] {ability.name}")
-            elif not found.can_afford(hero):
-                print(f"Not enough mana! ({found.cost} MP needed)")
-                input("Press Enter to Continue...")
-                continue
             else:
                 menu.append(f"[{ability.key}] {ability.name} | {plural(ability.current_cooldown, "turn")}")
 
@@ -200,6 +196,10 @@ def battle(hero, enemies):
 
             elif not found.is_ready():
                 print(f"{found.name} has {plural(found.current_cooldown, "turn")} till ready!")
+                input("Press Enter to Continue...")
+                continue
+            elif not found.can_afford(hero):
+                print(f"Not enough mana! ({found.cost} MP needed)")
                 input("Press Enter to Continue...")
                 continue
             else:
