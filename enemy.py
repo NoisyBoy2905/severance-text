@@ -1,5 +1,4 @@
 from character import Character
-from move import Move
 import random
 
 # Normal enemy
@@ -37,7 +36,7 @@ class Enemy(Character):
 # Boss enemy
 class Boss(Enemy):
 
-    def __init__(self, name, max_health, attack, defence, xp_reward, specials, enrage_at=0.1, enrage_bonus=2.5):
+    def __init__(self, name, max_health, attack, defence, xp_reward, specials, enrage_at=0.25, enrage_bonus=2.5):
         super().__init__(name, max_health, attack, defence, xp_reward)
         self.specials = specials
         self.enrage_at = enrage_at
@@ -57,6 +56,10 @@ class Boss(Enemy):
             self.preparing.use(self, hero)
             self.preparing = None
             return 
+
+        if self.charging:
+            super().take_turn(hero)
+            return
         
         roll = random.randint(1, 100)
         total = 0

@@ -1,5 +1,5 @@
 from classes import Paladin
-from enemy import Enemy, Boss
+from enemies import mutated_frog, mutated_boar, mutated_cheetah
 from move import Move
 import os
 import random
@@ -205,6 +205,7 @@ def battle(hero, enemies):
         # Enemy turn
         for enemy in enemies:
             if enemy.is_alive():
+                enemy.defending = False
                 enemy.take_turn(hero)
 
         # End of turn
@@ -237,9 +238,9 @@ def battle(hero, enemies):
 if __name__ == "__main__":
 
     rainforest_enemies = [
-        [Enemy("Mutated Frog", 40, 4, 10, 8)],
-        [Enemy("Mutated Boar", 35, 12, 2, 12), Enemy("Mutated Frog", 40, 4, 10, 8)],
-        [Boss("Mutated Cheetah", 90, 11, 5, 30, [Move("Pounce", 15, 1, 2, "crouches low, ready to pounce!")], enrage_bonus=2)],
+        [mutated_frog(), mutated_frog()],
+        [mutated_boar(), mutated_frog()],
+        [mutated_cheetah()],
     ]
     
     hero = intro()

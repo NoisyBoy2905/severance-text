@@ -1,11 +1,11 @@
 class Move:
     # Move stats
-    def __init__(self, name, chance, power, hits, warning):
+    def __init__(self, name, chance, power, hits, warning=None):
         self.name = name
         self.chance = chance
         self.power = power
         self.hits = hits
-        self.warning = warning 
+        self.warning = warning
 
     # Use move
     def use(self, user, target):

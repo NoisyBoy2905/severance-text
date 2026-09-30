@@ -19,7 +19,6 @@ class Character:
             raw_damage = raw_damage / self.defending_power
         damage = round(raw_damage * (100 / (100 + self.defence)))
         self.health = max(0, self.health - damage) 
-        self.defending = False
         return damage
 
     # Status and display
