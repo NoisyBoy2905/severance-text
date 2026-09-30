@@ -1,6 +1,5 @@
 from classes import Paladin
 from dungeons import rainforest_river
-from move import Move
 import os
 import random
 
@@ -104,8 +103,7 @@ def dungeon(hero, name, enemies):
         # Rest between rooms
         if room > 1:
             percent = random.randint(25, 35)
-            heal = round(hero.max_health * (percent / 100))
-            hero.health = min(hero.max_health, hero.health + heal)
+            heal = hero.heal(round(hero.max_health * (percent / 100)))
             print(f"You catch your breath and heal for {heal} health!")
             input("Press Enter to Continue...")
 
@@ -148,6 +146,7 @@ def battle(hero, enemies):
         clear_screen()
 
         hero.defending = False
+        hero.blocking = False
 
         print()
         print(f"{"=" * 15} Turn {turn} {"=" * 15}")
@@ -200,7 +199,16 @@ def battle(hero, enemies):
                 input("Press Enter to Continue...")
                 continue
             else:
-                found.use(hero, pick_target(enemies))
+                if found.target == "all":
+                    targets = []
+                    for enemy in enemies:
+                        if enemy.is_alive():
+                            targets.append(enemy)
+                elif found.target == "self":
+                    targets = [hero]
+                else:
+                    targets = [pick_target(enemies)]
+                found.use(hero, targets)
 
         # Enemy turn
         for enemy in enemies:

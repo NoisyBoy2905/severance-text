@@ -10,16 +10,24 @@ class Character:
         self.attack = attack
         self.defence = defence
         self.defending = False
+        self.blocking = False
         self.defending_power = 1.5
     
     # Taking damage
     def take_damage(self, raw_damage):
         raw_damage = random.randint(int(raw_damage * 0.8), int(raw_damage * 1.2))
+        if self.blocking:
+            return 0
         if self.defending:
             raw_damage = raw_damage / self.defending_power
         damage = round(raw_damage * (100 / (100 + self.defence)))
         self.health = max(0, self.health - damage) 
         return damage
+
+    def heal(self, amount):
+        before = self.health
+        self.health = min(self.max_health, self.health + amount)
+        return self.health - before 
 
     # Status and display
     def is_alive(self):

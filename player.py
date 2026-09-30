@@ -13,6 +13,8 @@ class Player(Character):
         self.health_growth = 12
         self.attack_growth = 1
         self.defence_growth = 3 
+        self.max_level = 20
+        self.unlocks = {}
 
     # XP and levelling
     def xp_needed(self):
@@ -21,7 +23,7 @@ class Player(Character):
     def gain_xp(self, amount):
         self.xp += amount
         print(f"{self.name} gains {amount} XP!")
-        while self.xp >= self.xp_needed():
+        while self.xp >= self.xp_needed() and self.level < self.max_level:
             self.xp -= self.xp_needed()
             self.level_up()
         print()
@@ -37,6 +39,10 @@ class Player(Character):
         print("LEVEL UP!")
         print(f"{self.name} is now level {self.level}!")
         self.show_stats()
+        if self.level in self.unlocks:
+            new_ability = self.unlocks[self.level]
+            self.abilities.append(new_ability)
+            print(f"You learned a new ability: {new_ability.name}")
 
     # Display
     def display_name(self):
