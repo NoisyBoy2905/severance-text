@@ -51,7 +51,7 @@ def intro():
         return hero
 
     
-def battle(hero, enemy):
+def battle(hero, enemies):
 
     os.system('cls' if os.name == 'nt' else 'clear')
 
