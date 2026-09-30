@@ -1,5 +1,5 @@
 from classes import Paladin
-from enemies import mutated_frog, mutated_boar, mutated_cheetah
+from dungeons import rainforest_river
 from move import Move
 import os
 import random
@@ -237,12 +237,6 @@ def battle(hero, enemies):
 # Start game
 if __name__ == "__main__":
 
-    rainforest_enemies = [
-        [mutated_frog(), mutated_frog()],
-        [mutated_boar(), mutated_frog()],
-        [mutated_cheetah()],
-    ]
-    
     hero = intro()
-
-    dungeon(hero, "Rainforest River", rainforest_enemies)
+    name, rooms = rainforest_river()
+    dungeon(hero, name, rooms)
