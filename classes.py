@@ -8,6 +8,7 @@ class Paladin(Player):
         self.health_growth = 12
         self.attack_growth = 1
         self.defence_growth = 3
+        self.defending_power = 3
         self.abilities = [
             Ability("Shield Bash", "S", 1.3, 2),
             Ability("Holy Strike", "H", 2, 4),

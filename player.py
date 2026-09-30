@@ -14,7 +14,7 @@ class Player(Character):
         self.defence_growth = 3 
 
     def xp_needed(self):
-        return 24 * self.level
+        return 50 * self.level
 
     def gain_xp(self, amount):
         self.xp += amount

@@ -1,6 +1,7 @@
 from classes import Paladin
 from enemy import Enemy
 import os
+import random
 
 def plural(number, word):
     if number == 1:
@@ -94,6 +95,14 @@ def dungeon(hero, name, enemies):
     room = 1 
 
     for room_enemies in enemies:
+
+        if room > 1:
+            percent = random.randint(25, 35)
+            heal = round(hero.max_health * (percent / 100))
+            hero.health = min(hero.max_health, hero.health + heal)
+            print(f"You catch your breath and heal for {heal} health!")
+            input("Press Enter to Continue...")
+
         clear_screen()
         print(f"{"=" * 10} {name} | Room {room} of {len(enemies)} {"=" * 10}")
         print()
@@ -213,9 +222,9 @@ def battle(hero, enemies):
 if __name__ == "__main__":
 
     rainforest_enemies = [
-        [Enemy("Mutated Frog", 35, 3, 4, 8)],
-        [Enemy("Mutated Boar", 40, 8, 2, 12), Enemy("Mutated Frog", 35, 3, 4, 8)],
-        [Enemy("Mutated Cheetah", 85, 10, 5, 25)],
+        [Enemy("Mutated Frog", 40, 4, 10, 8)],
+        [Enemy("Mutated Boar", 35, 12, 2, 12), Enemy("Mutated Frog", 40, 4, 10, 8)],
+        [Enemy("Mutated Cheetah", 100, 11, 5, 30)],
     ]
     
     hero = intro()
