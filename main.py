@@ -1,5 +1,6 @@
 from classes import Paladin, Sorcerer
 from dungeons import rainforest_river
+from save import has_save, save_game, load_game, peek_save
 import os
 import random
 
@@ -44,7 +45,6 @@ def pick_target(enemies):
         if 1 <= pick <= len(alive_enemies):
             return alive_enemies[pick - 1]
         print("Invalid Target! Please choose a valid target.")
-
     
 # Title and class select
 def intro():
@@ -73,7 +73,6 @@ def intro():
         "[S] Sorcerer | 100 Health | 13 Attack | 5 Defence | 60 Mana",
         "[?] WIP",
     ]
-
 
     for option in menu:
         print("  " + option)
@@ -134,11 +133,12 @@ def dungeon(hero, name, enemies):
         if not won:
             print()
             print(f"You were defeated in {name}")
-            return
+            return False
         room += 1
 
     print()
     print("DUNGEON CLEARED!")
+    return True
     
 # Battle
 def battle(hero, enemies):
@@ -260,6 +260,32 @@ def battle(hero, enemies):
 # Start game
 if __name__ == "__main__":
 
-    hero = intro()
+    if has_save():
+        clear_screen()
+        info = peek_save()
+        print(f"[C] Continue ({info["name"]} | {info["class"]} | Level {info["level"]})")
+        print("[N] New Game")
+
+        print()
+        choice = input(">  ").strip().upper()
+        print()
+
+        while choice not in ["C", "N"]:
+            print("Please Enter a Valid Keybind!")
+            choice = input(">  ").strip().upper()
+            print()
+
+        if choice == "C":
+            hero = load_game()
+        if choice == "N":
+            hero = intro()
+
+    else:
+        hero = intro()
+
     name, rooms = rainforest_river()
-    dungeon(hero, name, rooms)
+    won = dungeon(hero, name, rooms)
+
+    if won:
+        save_game(hero)
+        print("Game Saved!")
