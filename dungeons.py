@@ -1,9 +1,10 @@
-from enemies import mutated_frog, mutated_boar, mutated_cheetah
+from enemies import mutated_frog, mutated_boar, mutated_cheetah, mutated_tadpole
 from enemies import security_drone, maintenance_bot, sentry_turret, rogue_overseer
 
-# Dungeon 1
+# Dungeon 1 (Lv 1)
 def rainforest_river():
     return "Rainforest River", [
+        [mutated_tadpole(), mutated_tadpole()],
         [mutated_frog(), mutated_frog()],
         [mutated_boar(), mutated_frog()],
         [mutated_cheetah()],
