@@ -10,6 +10,27 @@ def mash_bot(hero, enemies):
         if enemy.is_alive():
             return "A", enemy
 
+def smart_bot(hero, enemies):
+    for enemy in enemies:
+        if enemy.is_alive() and (enemy.charging or getattr(enemy, "preparing", None) is not None):
+            return "D", None
+
+    alive = []
+    for enemy in enemies:
+        if enemy.is_alive():
+            alive.append(enemy)
+
+    for ability in hero.abilities:
+        if ability.is_ready() and ability.can_afford(hero):
+            if ability.target == "all":
+                return ability, alive
+            if ability.target == "self":
+                return ability, [hero]
+            return ability, [alive[0]]
+
+    return "A", alive[0]
+
+
 def sim_battle(hero, enemies, bot):
     turn = 1
 
@@ -68,7 +89,7 @@ if __name__ == "__main__":
     for i in range(1000):
 
         with contextlib.redirect_stdout(io.StringIO()):
-            won = sim_dungeon(mash_bot)
+            won = sim_dungeon(smart_bot)
             if won:
                 wins += 1
 
