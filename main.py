@@ -153,6 +153,7 @@ def battle(hero, enemies):
         print()
 
         hero.show_bar()
+        hero.show_mana_bar()
         for enemy in enemies:
             enemy.show_bar()
 
@@ -164,10 +165,13 @@ def battle(hero, enemies):
         ]
 
         for ability in hero.abilities:
-            if ability.is_ready():
-                menu.append(f"[{ability.key}] {ability.name}")
-            else:
-                menu.append(f"[{ability.key}] {ability.name} | {plural(ability.current_cooldown, "turn")}")
+            label = f"[{ability.key}] {ability.name}"
+            if ability.mana_cost > 0:
+                label += f" | {ability.mana_cost} MP"
+            if not ability.is_ready():
+                label += f" | {plural(ability.current_cooldown, 'turn')} till ready"
+
+            menu.append(label)
 
         for option in menu:
             print("  " + option)
@@ -199,7 +203,7 @@ def battle(hero, enemies):
                 input("Press Enter to Continue...")
                 continue
             elif not found.can_afford(hero):
-                print(f"Not enough mana! ({found.cost} MP needed)")
+                print(f"Not enough mana! ({found.mana_cost} MP needed)")
                 input("Press Enter to Continue...")
                 continue
             else:

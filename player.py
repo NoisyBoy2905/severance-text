@@ -59,6 +59,14 @@ class Player(Character):
         print()
         print(f"{"XP":<20} | [{bar}] | {self.xp:>3}/{self.xp_needed()}")
 
+    def show_mana_bar(self):
+        if self.max_mana == 0:
+            return
+        bar_length = 20
+        filled = round((self.mana / self.max_mana) * bar_length)
+        empty = bar_length - filled
+        bar = ("#" * filled) + ("-" * empty)
+        print(f"{"Mana":<20} | [{bar}] | {self.mana:>3}/{self.max_mana}")
         
 # Quick test
 if __name__ == "__main__":
