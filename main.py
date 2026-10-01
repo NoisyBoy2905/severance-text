@@ -1,4 +1,4 @@
-from classes import Paladin
+from classes import Paladin, Sorcerer
 from dungeons import rainforest_river
 import os
 import random
@@ -70,7 +70,7 @@ def intro():
 
     menu = [
         "[P] Paladin | 120 Health | 10 Attack | 6 Defence",
-        "[?] WIP",
+        "[S] Sorcerer | 90 Health | 13 Attack | 3 Defence | 60 Mana",
         "[?] WIP",
     ]
 
@@ -82,7 +82,7 @@ def intro():
     choice = input(">  ").strip().upper()
     print()
 
-    while choice not in ["P"]:
+    while choice not in ["P", "S"]:
         print("Please Enter a Valid Keybind!")
         choice = input(">  ").strip().upper()
         print()
@@ -90,6 +90,11 @@ def intro():
     if choice == "P":
         hero = Paladin(name)
         print("You have chosen the Paladin class!")
+        input("Press Enter to Continue...")
+        return hero
+    elif choice == "S":
+        hero = Sorcerer(name)
+        print("You have chosen the Sorcerer class!")
         input("Press Enter to Continue...")
         return hero
 

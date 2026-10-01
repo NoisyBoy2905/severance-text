@@ -57,3 +57,11 @@ class LifestealAbility(Ability):
         dmg = target.take_damage(round(user.attack * self.power))
         healed = user.heal(round(dmg * self.drain))
         print(f"{user.name} hit {target.name} for {dmg} and drains {healed} HP!")
+
+class ManaAbility(Ability):
+
+    def apply(self, user, target):
+        amount = round(target.max_mana * self.power)
+        before = target.mana
+        target.mana = min(target.max_mana, target.mana + amount)
+        print(f"{target.name} restores {target.mana - before} mana!")
