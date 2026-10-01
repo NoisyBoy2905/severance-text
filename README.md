@@ -33,7 +33,7 @@ python main.py
   - **Enrage:** the boss gets stronger at low health
 - **Group fights:** fight several enemies at once, with damage variance and defence scaling
 - **Mana system:** mana bar, ability costs shown in the menu, regen every turn
-- **Automated tests:** pytest checks damage, blocking, healing, levelling, ability unlocks and cooldowns
+- **Automated tests:** 16 pytest tests covering damage, healing, levelling, mana, cooldowns and the sim bot
 - **Balance simulations:** a bot plays thousands of runs to measure how hard each dungeon is for each class
 
 ## Screenshots
@@ -63,14 +63,17 @@ python main.py
 Needs pytest (`pip install pytest`). From the project folder:
 
 ```
-pytest -v
+python -m pytest -v
 ```
+
+16 tests, all passing:
 
 | Test file | What it checks |
 |---|---|
 | `tests/test_character.py` | Health never drops below 0, blocking takes no damage, damage stays in its random range, healing can't go over max HP |
-| `tests/test_player.py` | Paladin starting stats, level-up stat growth, Holy Ground unlocking at level 2 |
-| `tests/test_ability.py` | Cooldowns count down and the ability becomes ready again |
+| `tests/test_player.py` | Paladin and Sorcerer starting stats (including mana), level-up stat growth, Holy Ground and Chain Lightning unlocking at level 2 |
+| `tests/test_ability.py` | Cooldowns count down, casting takes the mana cost, you can't cast without enough mana, Mana Tide restores mana but never goes over max |
+| `tests/test_sims.py` | The sim bot defends when a boss is preparing a big attack, and uses AOE on a group |
 
 ## Balance simulations
 
@@ -131,7 +134,7 @@ The goal is for a player who plays well to win most of the time, while just mash
 | `move.py` | Boss special moves |
 | `enemies.py` | Every enemy's stats |
 | `dungeons.py` | Dungeon layouts |
-| `tests/` | pytest tests |
+| `tests/` | pytest tests (16) |
 | `sims/simulate.py` | Balance simulations |
 
 ## Coming next
