@@ -38,9 +38,17 @@ python main.py
 
 ![First fight](screenshots/dungeon1firstfight.png)
 
+**Rest between rooms:** win XP, then catch your breath before the next fight
+
+![Rest and XP gain](screenshots/rest%2BXPGain.png)
+
 **Level up:** stats grow and a new ability unlocks
 
 ![Level up with new ability](screenshots/LevelUPwithNewAbility.png)
+
+**Boss enrage + warning:** the Cheetah gets stronger at low health and warns you before it pounces
+
+![Pounce warning and enrage](screenshots/Pounce%2BENRAGE.png)
 
 **Death:** ignore the boss's warning and Pounce hits hard
 
