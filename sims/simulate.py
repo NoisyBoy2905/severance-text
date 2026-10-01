@@ -85,12 +85,17 @@ def sim_dungeon(bot):
 
 if __name__ == "__main__":
 
-    wins = 0
+    smart_wins = 0
+    mash_wins = 0
     for i in range(1000):
 
         with contextlib.redirect_stdout(io.StringIO()):
-            won = sim_dungeon(smart_bot)
-            if won:
-                wins += 1
+            smart_won = sim_dungeon(smart_bot)
+            mash_won = sim_dungeon(mash_bot)
+            if smart_won:
+                smart_wins += 1
+            if mash_won:
+                mash_wins += 1
 
-    print(f"Bot won {wins} out of 1000 runs. ({wins / 1000 * 100:.2f}% win rate)")
+    print(f"Smart bot won {smart_wins} out of 1000 runs. ({smart_wins / 1000 * 100:.2f}% win rate)")
+    print(f"Mash bot won {mash_wins} out of 1000 runs. ({mash_wins / 1000 * 100:.2f}% win rate)")
