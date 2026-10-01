@@ -27,17 +27,26 @@ def smart_bot(hero, enemies):
 
     for ability in hero.abilities:
         if ability.is_ready() and ability.can_afford(hero):
-            if isinstance(ability, ManaAbility) and hero.mana >= (hero.max_mana / 2):
-                continue
-            if isinstance(ability, HealAbility) and hero.health >= (hero.max_health / 2):
-                continue
-            if isinstance(ability, BlockAbility):
-                continue
-            if ability.target == "all":
-                return ability, alive
-            if ability.target == "self":
+            if isinstance(ability, HealAbility) and hero.health < hero.max_health / 2:
                 return ability, [hero]
-            return ability, [alive[0]]
+
+    if len(alive) >= 2:
+        for ability in hero.abilities:
+            if ability.target == "all" and ability.is_ready() and ability.can_afford(hero):
+                return ability, alive
+
+    best = None
+    for ability in hero.abilities:
+        if ability.is_ready() and ability.can_afford(hero) and ability.target not in ["all", "self"]:
+            if best is None or ability.power > best.power:
+                best = ability
+    if best is not None:
+        return best, [alive[0]]
+
+    for ability in hero.abilities:
+        if ability.is_ready() and ability.can_afford(hero):
+            if isinstance(ability, ManaAbility) and hero.mana < hero.max_mana / 2:
+                return ability, [hero]
 
     return "A", alive[0]
 
