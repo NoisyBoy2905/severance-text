@@ -32,6 +32,7 @@ python main.py
   - **Telegraphed attacks:** the boss warns you a turn before a big hit, so you can defend
   - **Enrage:** the boss gets stronger at low health
 - **Group fights:** fight several enemies at once, with damage variance and defence scaling
+- **Save / Load:** your hero is saved after clearing a dungeon, and you can continue next time
 - **Mana system:** mana bar, ability costs shown in the menu, regen every turn
 - **Automated tests:** 16 pytest tests covering damage, healing, levelling, mana, cooldowns and the sim bot
 - **Balance simulations:** a bot plays thousands of runs to measure how hard each dungeon is for each class
@@ -118,7 +119,7 @@ The goal is for a player who plays well to win most of the time, while just mash
 | Dungeon Plans | The plan for each dungeon next to what's built so far |
 | Build Order | What's next and in what order |
 | Base Moves / Boss Specials / Damage Table | How enemy attacks work and how hard they hit |
-| Sim Results | Simulation tests for new ideas, like the Paladin's planned Faith bar |
+| Sim Results | Simulation tests for new ideas and class balance |
 | Balance Log | Every balance change, why it was made, and how it was found (playtests or simulations) |
 
 ## Project structure
@@ -134,12 +135,13 @@ The goal is for a player who plays well to win most of the time, while just mash
 | `move.py` | Boss special moves |
 | `enemies.py` | Every enemy's stats |
 | `dungeons.py` | Dungeon layouts |
+| `save.py` | Save and load your hero (JSON) |
 | `tests/` | pytest tests (16) |
 | `sims/simulate.py` | Balance simulations |
 
 ## Coming next
 
-The Paladin's Faith bar, tutorial tips, branching paths in the Spaceship, a multi-floor Cave dungeon, then loot, shops and saving. The full list is on the Build Order tab.
+Tutorial tips, an XP rework (big XP from bosses), a new Cheetah move, loot, then branching paths in the Spaceship, a multi-floor Cave dungeon and shops. The full list is on the Build Order tab.
 
 ## Credits
 
