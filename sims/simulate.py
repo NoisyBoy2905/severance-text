@@ -1,6 +1,6 @@
 from classes import Paladin, Sorcerer
 from ability import ManaAbility, BlockAbility, HealAbility
-from dungeons import rainforest_river
+from dungeons import rainforest_river, derelict_spaceship
 from main import any_alive
 import io
 import contextlib
@@ -80,9 +80,11 @@ def sim_battle(hero, enemies, bot):
 
     return False
 
-def sim_dungeon(bot, hero_class):
+def sim_dungeon(bot, hero_class, dungeon, level):
     hero = hero_class("Bot")
-    name, rooms = rainforest_river()
+    for i in range(level - 1):
+        hero.level_up()
+    name, rooms = dungeon()
 
     for number, room in enumerate(rooms, start=1):
         if number > 1:
@@ -90,9 +92,26 @@ def sim_dungeon(bot, hero_class):
             hero.heal(round(hero.max_health * (percent / 100)))
 
         if not sim_battle(hero, room, bot):
-            return False    
+            return False
 
-    return True            
+    return True
+
+def run_batch(bot, hero_class, dungeon, level, runs):
+    wins = 0
+    for i in range(runs):
+        with contextlib.redirect_stdout(io.StringIO()):
+            won = sim_dungeon(bot, hero_class, dungeon, level)
+        if won:
+            wins += 1
+    return wins / runs * 100
+
+def pick(question, options):
+    choice = input(question).strip().upper()
+    while choice not in options and choice != "A":
+        choice = input("Please pick one of the letters shown: ").strip().upper()
+    if choice == "A":
+        return list(options.values())
+    return [options[choice]]
 
 if __name__ == "__main__":
 
@@ -100,24 +119,33 @@ if __name__ == "__main__":
         "P": Paladin,
         "S": Sorcerer,
     }
+    dungeons = {
+        "R": ("Rainforest River", rainforest_river, 1),
+        "D": ("Derelict Spaceship", derelict_spaceship, 2),
+    }
+    runs = 5000
 
-    smart_wins = 0
-    mash_wins = 0
+    class_list = pick("Which class? [P] Paladin, [S] Sorcerer, [A] All: ", classes)
+    dungeon_list = pick("Which dungeon? [R] Rainforest River, [D] Derelict Spaceship, [A] All: ", dungeons)
+    rounds = int(input("How many rounds? "))
 
-    choice = input("Which Class? [P] Paladin, [S] Sorcerer: ").strip().upper()
-    while choice not in classes:
-        choice = input("Please enter P or S: ").strip().upper()
-    hero_choice = classes[choice]
+    for dungeon_name, dungeon, level in dungeon_list:
+        for hero_class in class_list:
+            print()
+            print(f"===== {dungeon_name} (Lv {level}) | {hero_class.__name__} =====")
 
-    for i in range(1000):
+            smart_results = []
+            mash_results = []
 
-        with contextlib.redirect_stdout(io.StringIO()):
-            smart_won = sim_dungeon(smart_bot, hero_choice)
-            mash_won = sim_dungeon(mash_bot, hero_choice)
-            if smart_won:
-                smart_wins += 1
-            if mash_won:
-                mash_wins += 1
+            for round_number in range(1, rounds + 1):
+                smart = run_batch(smart_bot, hero_class, dungeon, level, runs)
+                mash = run_batch(mash_bot, hero_class, dungeon, level, runs)
+                smart_results.append(smart)
+                mash_results.append(mash)
+                print(f"Round {round_number}: smart {smart:.1f}% | mash {mash:.1f}%")
 
-    print(f"Smart bot won {smart_wins} out of 1000 runs. ({smart_wins / 1000 * 100:.2f}% win rate)")
-    print(f"Mash bot won {mash_wins} out of 1000 runs. ({mash_wins / 1000 * 100:.2f}% win rate)")
+            print(f"Smart average {sum(smart_results) / len(smart_results):.1f}% (lowest {min(smart_results):.1f}%, highest {max(smart_results):.1f}%)")
+            print(f"Mash average {sum(mash_results) / len(mash_results):.1f}% (lowest {min(mash_results):.1f}%, highest {max(mash_results):.1f}%)")
+
+    print()
+    print(f"({rounds} rounds x {runs} runs each)")
