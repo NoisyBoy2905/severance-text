@@ -80,6 +80,7 @@ pytest -v
 | Dungeon Plans | The plan for each dungeon next to what's built so far |
 | Build Order | What's next and in what order |
 | Base Moves / Boss Specials / Damage Table | How enemy attacks work and how hard they hit |
+| Sim Results | Simulation tests for new ideas, like the Paladin's planned Faith bar |
 | Balance Log | Every balance change, why it was made, and how it was found (playtests or simulations) |
 
 **Credits:** the balance simulations and this spreadsheet were made by Claude (Anthropic's AI assistant). The Balance Log shows which changes came from simulations and which came from my playtests.
