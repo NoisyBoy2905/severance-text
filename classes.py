@@ -45,7 +45,7 @@ class Sorcerer(Player):
         ]
 
         self.unlocks = {
-            2:  Ability("Chain Lightning", "L", 1.2, 3, target="all", mana_cost=20),
+            2:  Ability("Chain Lightning", "L", 1.2, 3, target="all", mana_cost=12),
             5:  HealAbility("Frost Ward", "I", 0.2, 6, target="self", mana_cost=15),
             9:  BlockAbility("Wind Step", "W", 0, 6, target="self", message="vanishes on a gust of wind!", mana_cost=15),
             13: LifestealAbility("Steam Burst", "B", 1.8, 4, mana_cost=25),
