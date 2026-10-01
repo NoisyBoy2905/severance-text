@@ -138,6 +138,8 @@ if __name__ == "__main__":
     dungeon_list = pick("Which dungeon? [R] Rainforest River, [D] Derelict Spaceship, [A] All: ", dungeons)
     rounds = int(input("How many rounds? "))
 
+    summary = []
+
     for dungeon_name, dungeon, level in dungeon_list:
         for hero_class in class_list:
             print()
@@ -156,5 +158,15 @@ if __name__ == "__main__":
             print(f"Smart average {sum(smart_results) / len(smart_results):.1f}% (lowest {min(smart_results):.1f}%, highest {max(smart_results):.1f}%)")
             print(f"Mash average {sum(mash_results) / len(mash_results):.1f}% (lowest {min(mash_results):.1f}%, highest {max(mash_results):.1f}%)")
 
+            smart_average = sum(smart_results) / len(smart_results)
+            mash_average = sum(mash_results) / len(mash_results)
+            summary.append((hero_class.__name__, dungeon_name, smart_average, mash_average))
+
+    print()
+    print("===== Summary =====")
+    print(f"{'Class':<10} | {'Dungeon':<20} | {'Smart':>6} | {'Mash':>6}")
+    print("-" * 52)
+    for class_name, dungeon_name, smart_average, mash_average in summary:
+        print(f"{class_name:<10} | {dungeon_name:<20} | {smart_average:>5.1f}% | {mash_average:>5.1f}%")
     print()
     print(f"({rounds} rounds x {runs} runs each)")
