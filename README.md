@@ -18,6 +18,20 @@ Needs **Python 3.12+**. There are no extra packages to install.
 python main.py
 ```
 
+## Running the tests
+
+Needs pytest (`pip install pytest`). From the project folder:
+
+```
+pytest -v
+```
+
+| Test file | What it checks |
+|---|---|
+| `tests/test_character.py` | Health never drops below 0, blocking takes no damage, damage stays in its random range, healing can't go over max HP |
+| `tests/test_player.py` | Paladin starting stats, level-up stat growth, Holy Ground unlocking at level 2 |
+| `tests/test_ability.py` | Cooldowns count down and the ability becomes ready again |
+
 ## Features so far
 
 - **Turn-based combat:** attack, defend, or use abilities with cooldowns
@@ -31,6 +45,7 @@ python main.py
   - **Enrage:** the boss gets stronger at low health
 - **Group fights:** fight several enemies at once, with damage variance and defence scaling
 - **Mana system:** ready for the Sorcerer (in progress)
+- **Automated tests:** pytest checks damage, blocking, healing, levelling, ability unlocks and cooldowns
 
 ## Screenshots
 
@@ -80,6 +95,7 @@ python main.py
 | `move.py` | Boss special moves |
 | `enemies.py` | Every enemy's stats |
 | `dungeons.py` | Dungeon layouts |
+| `tests/` | pytest tests |
 
 ## Coming next
 
