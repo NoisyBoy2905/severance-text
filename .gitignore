@@ -1,2 +1,3 @@
 __pycache__/
 save.json
+.pytest_cache/
