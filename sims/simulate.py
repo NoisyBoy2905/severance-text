@@ -1,4 +1,5 @@
-from classes import Paladin
+from classes import Paladin, Sorcerer
+from ability import ManaAbility, BlockAbility, HealAbility
 from dungeons import rainforest_river
 from main import any_alive
 import io
@@ -13,6 +14,10 @@ def mash_bot(hero, enemies):
 def smart_bot(hero, enemies):
     for enemy in enemies:
         if enemy.is_alive() and (enemy.charging or getattr(enemy, "preparing", None) is not None):
+            # Block ability ready? Use it, otherwise defend
+            for ability in hero.abilities:
+                if isinstance(ability, BlockAbility) and ability.is_ready() and ability.can_afford(hero):
+                    return ability, [hero]
             return "D", None
 
     alive = []
@@ -22,6 +27,12 @@ def smart_bot(hero, enemies):
 
     for ability in hero.abilities:
         if ability.is_ready() and ability.can_afford(hero):
+            if isinstance(ability, ManaAbility) and hero.mana >= (hero.max_mana / 2):
+                continue
+            if isinstance(ability, HealAbility) and hero.health >= (hero.max_health / 2):
+                continue
+            if isinstance(ability, BlockAbility):
+                continue
             if ability.target == "all":
                 return ability, alive
             if ability.target == "self":
@@ -69,8 +80,8 @@ def sim_battle(hero, enemies, bot):
 
     return False
 
-def sim_dungeon(bot):
-    hero = Paladin("Bot")
+def sim_dungeon(bot, hero_class):
+    hero = hero_class("Bot")
     name, rooms = rainforest_river()
 
     for number, room in enumerate(rooms, start=1):
@@ -85,13 +96,24 @@ def sim_dungeon(bot):
 
 if __name__ == "__main__":
 
+    classes = {
+        "P": Paladin,
+        "S": Sorcerer,
+    }
+
     smart_wins = 0
     mash_wins = 0
+
+    choice = input("Which Class? [P] Paladin, [S] Sorcerer: ").strip().upper()
+    while choice not in classes:
+        choice = input("Please enter P or S: ").strip().upper()
+    hero_choice = classes[choice]
+
     for i in range(1000):
 
         with contextlib.redirect_stdout(io.StringIO()):
-            smart_won = sim_dungeon(smart_bot)
-            mash_won = sim_dungeon(mash_bot)
+            smart_won = sim_dungeon(smart_bot, hero_choice)
+            mash_won = sim_dungeon(mash_bot, hero_choice)
             if smart_won:
                 smart_wins += 1
             if mash_won:

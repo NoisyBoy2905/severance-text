@@ -31,7 +31,7 @@ class Sorcerer(Player):
 
 
     def __init__(self, name):
-        super().__init__(name, "Magic", "Sorcerer", 90, 13, 3)
+        super().__init__(name, "Magic", "Sorcerer", 100, 13, 5)
         self.health_growth = 8
         self.attack_growth = 2
         self.defence_growth = 1
@@ -40,7 +40,7 @@ class Sorcerer(Player):
         self.mana = self.max_mana
         self.mana_regen = 4
         self.abilities = [
-            Ability("Fire Bolt", "F", 1.6, 1, mana_cost=10),
+            Ability("Fire Bolt", "F", 1.8, 1, mana_cost=10),
             ManaAbility("Mana Tide", "T", 0.4, 6, target="self"),
         ]
 

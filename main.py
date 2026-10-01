@@ -70,7 +70,7 @@ def intro():
 
     menu = [
         "[P] Paladin | 120 Health | 10 Attack | 6 Defence",
-        "[S] Sorcerer | 90 Health | 13 Attack | 3 Defence | 60 Mana",
+        "[S] Sorcerer | 100 Health | 13 Attack | 5 Defence | 60 Mana",
         "[?] WIP",
     ]
 
