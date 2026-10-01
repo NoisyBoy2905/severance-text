@@ -71,7 +71,7 @@ pytest -v
 
 ## Design docs
 
-[`docs/Severance Monsters.xlsx`](docs/Severance%20Monsters.xlsx) has all the planning and balance work:
+[`docs/Severance Design Docs.xlsx`](docs/Severance%20Design%20Docs.xlsx) has all the planning and balance work:
 
 | Tab | What's in it |
 |---|---|
@@ -81,6 +81,8 @@ pytest -v
 | Build Order | What's next and in what order |
 | Base Moves / Boss Specials / Damage Table | How enemy attacks work and how hard they hit |
 | Balance Log | Every balance change, why it was made, and how it was found (playtests or simulations) |
+
+**Credits:** the balance simulations and this spreadsheet were made by Claude (Anthropic's AI assistant). The Balance Log shows which changes came from simulations and which came from my playtests.
 
 ## Project structure
 
